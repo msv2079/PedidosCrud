@@ -1,0 +1,58 @@
+@model PedidosCrud.Model.OrderInput
+@{
+    ViewData["Title"] = "Meus pedidos";
+}
+<section class="page-heading">
+    <div><span class="eyebrow">VISÃO GERAL</span><h1>Meus pedidos</h1><p>Organize os pedidos e acompanhe cada atualização.</p></div>
+    <button type="button" class="btn btn-primary" id="create-order"><i class="fa-solid fa-plus me-2" aria-hidden="true"></i>Novo pedido</button>
+</section>
+<div id="page-message" class="alert d-none" role="alert" aria-live="polite"></div>
+<section class="surface orders-panel" aria-label="Lista de pedidos">
+    <div class="panel-toolbar">
+        <div class="search-field"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><label for="order-search" class="visually-hidden">Pesquisar cliente ou descrição</label><input type="search" class="form-control" id="order-search" maxlength="200" placeholder="Pesquisar cliente ou descrição..." /></div>
+        <div class="refresh-controls"><span class="live-dot" id="refresh-dot"></span><span id="refresh-status" role="status">Atualização a cada 10 segundos</span><button class="btn btn-light btn-sm" id="refresh-orders" type="button" aria-label="Atualizar pedidos" title="Atualizar pedidos"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button></div>
+    </div>
+    <div class="table-responsive">
+        <table id="orders-table" class="table align-middle w-100">
+            <thead><tr><th>Pedido</th><th>Cliente</th><th>Descrição</th><th>Valor total</th><th>Status</th><th>Criado em</th><th>Ações</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div class="panel-note"><i class="fa-regular fa-circle-check me-2" aria-hidden="true"></i>As alterações aparecem automaticamente. Sua pesquisa e página são mantidas.</div>
+</section>
+<div class="modal fade" id="order-modal" tabindex="-1" aria-labelledby="order-modal-title" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content">
+        <div class="modal-header"><div><span class="eyebrow">CADASTRO</span><h2 class="modal-title fs-4" id="order-modal-title">Novo pedido</h2></div><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button></div>
+        <form id="order-form" novalidate>
+            @Html.AntiForgeryToken()
+            <div class="modal-body">
+                <div id="form-message" class="alert alert-danger d-none" role="alert"></div>
+                <input type="hidden" id="order-id" />
+                <input type="hidden" id="order-version" />
+                <div class="mb-3"><label asp-for="CustomerName" class="form-label">Nome do cliente <span class="required-mark">*</span></label><input asp-for="CustomerName" class="form-control" maxlength="100" autocomplete="name" placeholder="Nome completo ou razão social" /><span asp-validation-for="CustomerName" class="text-danger small"></span></div>
+                <div class="mb-3"><label asp-for="Description" class="form-label">Descrição <span class="required-mark">*</span></label><textarea asp-for="Description" class="form-control" rows="3" maxlength="500" placeholder="Descreva o pedido"></textarea><span asp-validation-for="Description" class="text-danger small"></span></div>
+                <div class="row g-3">
+                    <div class="col-sm-6"><label asp-for="TotalAmount" class="form-label">Valor total <span class="required-mark">*</span></label><div class="input-group"><span class="input-group-text">R$</span><input asp-for="TotalAmount" type="text" inputmode="decimal" class="form-control" value="" placeholder="0,00" /></div><span asp-validation-for="TotalAmount" class="text-danger small"></span></div>
+                    <div class="col-sm-6"><label asp-for="Status" class="form-label">Status <span class="required-mark">*</span></label><select asp-for="Status" class="form-select"><option value="Open">Aberto</option><option value="Paid">Pago</option><option value="Canceled">Cancelado</option></select><span asp-validation-for="Status" class="text-danger small"></span></div>
+                </div>
+                <p class="form-note mt-3 mb-0">Os campos com <span class="required-mark">*</span> são obrigatórios.</p>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" id="save-order" class="btn btn-primary"><i class="fa-solid fa-check me-2" aria-hidden="true"></i>Salvar pedido</button></div>
+        </form>
+    </div></div>
+</div>
+<div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-modal-title" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title fs-5" id="delete-modal-title">Excluir pedido?</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button></div>
+        <div class="modal-body"><p id="delete-description"></p><p class="text-secondary mb-0">Esta ação não pode ser desfeita.</p><div id="delete-message" class="alert alert-danger d-none mt-3 mb-0" role="alert"></div></div>
+        <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" id="confirm-delete" class="btn btn-danger"><i class="fa-regular fa-trash-can me-2" aria-hidden="true"></i>Excluir pedido</button></div>
+    </div></div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/datatables/dataTables.min.js"></script>
+    <script src="~/lib/datatables/dataTables.bootstrap5.min.js"></script>
+    <script src="~/lib/inputmask/inputmask.min.js"></script>
+    <script src="~/lib/loadingoverlay/loadingoverlay.min.js"></script>
+    <script src="~/js/orders.js" asp-append-version="true"></script>
+}

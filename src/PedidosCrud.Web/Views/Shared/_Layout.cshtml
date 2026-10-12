@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] · Pedidos</title>
+    <link rel="icon" href="~/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/datatables/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="app-header">
+        <nav class="container-xl d-flex align-items-center justify-content-between" aria-label="Navegação principal">
+            <a class="brand" asp-controller="Orders" asp-action="Index"><span class="brand-icon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></span>pedidos<span class="brand-dot">.</span></a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <div class="d-flex align-items-center gap-3">
+                    <span class="account-name"><i class="fa-regular fa-user me-2" aria-hidden="true"></i>@User.Identity.Name</span>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button class="btn btn-outline-secondary btn-sm" type="submit"><i class="fa-solid fa-arrow-right-from-bracket me-2" aria-hidden="true"></i>Sair</button>
+                    </form>
+                </div>
+            }
+        </nav>
+    </header>
+    <main class="container-xl app-main">@RenderBody()</main>
+    <footer class="container-xl app-footer"><span>Cadastro de pedidos</span><span>Desenvolvido por Murilo Siqueira · @DateTime.Now.Year</span></footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

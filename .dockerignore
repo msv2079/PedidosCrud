@@ -1,0 +1,10 @@
+**/bin
+**/obj
+**/TestResults
+.git
+.vs
+.env*
+Referencia
+artifacts
+*.pdf
+

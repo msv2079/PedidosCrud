@@ -1,0 +1,35 @@
+@model PedidosCrud.Web.Models.LoginInput
+@{
+    ViewData["Title"] = "Entrar";
+}
+<div class="login-grid">
+    <section class="login-intro">
+        <span class="eyebrow">GESTÃO DE PEDIDOS</span>
+        <h1>Seus pedidos.<br />Tudo em ordem.</h1>
+        <p>Consulte, organize e acompanhe os pedidos em um só lugar.</p>
+        <div class="intro-note"><span class="live-dot"></span>Dados atualizados automaticamente</div>
+        <div class="intro-illustration" aria-hidden="true"><i class="fa-solid fa-box-open"></i><span><i class="fa-solid fa-check"></i></span></div>
+    </section>
+    <section class="login-card surface">
+        <span class="eyebrow">BEM-VINDO</span>
+        <h2>Acesse sua conta</h2>
+        <p class="text-secondary mb-4">Entre para gerenciar seus pedidos.</p>
+        <form asp-controller="Account" asp-action="Login" method="post" id="login-form">
+            <div asp-validation-summary="All" class="validation-summary text-danger" role="alert"></div>
+            <div class="mb-3">
+                <label asp-for="Username" class="form-label">Usuário</label>
+                <input asp-for="Username" class="form-control" autocomplete="username" maxlength="100" placeholder="Seu usuário" autofocus />
+                <span asp-validation-for="Username" class="text-danger small"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="Password" class="form-label">Senha</label>
+                <input asp-for="Password" type="password" class="form-control" autocomplete="current-password" maxlength="256" placeholder="Sua senha" />
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Entrar <i class="fa-solid fa-arrow-right ms-2" aria-hidden="true"></i></button>
+        </form>
+    </section>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

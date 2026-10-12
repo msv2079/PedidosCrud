@@ -1,0 +1,10 @@
+services:
+  pedidos:
+    build: .
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Authentication__Username: ${Authentication__Username:?Configure o usuário antes de iniciar}
+      Authentication__Password: ${Authentication__Password:?Configure a senha antes de iniciar}
+      Authentication__SigningKey: ${Authentication__SigningKey:?Configure a chave JWT antes de iniciar}
